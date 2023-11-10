@@ -52,10 +52,10 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onUploadStart, onGettingResul
   return (
     <div className="d-flex justify-content-flex-start form-container">
         <form onSubmit={handleSubmit}>
-            <div className="mb-4 d-flex justify-content-center">
+            <div className="mb-4 d-flex justify-content-center" style={{ width: '600px', height: '600px', objectFit: 'cover' }}>
                 <img id="selectedImage" src={imagePreviewUrl}
-                alt="example placeholder" style={{ width: '600px', height: '600px', objectFit: 'cover' }} />
-            </div>
+                alt="example placeholder" style={{ width: '100%', height: '100%' }} />
+              </div>
             <div className="d-flex justify-content-center">
                 <div className="btn btn-primary btn-rounded">
                     <label className="form-label text-white m-1" htmlFor="customFile1">Upload Image</label>
