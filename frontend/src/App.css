@@ -1,0 +1,25 @@
+.navigation-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+.main-content {
+  /*position: relative;*/
+  position: fixed; 
+  bottom: 10%;
+  left: 10%;
+  padding: 0px; 
+  z-index: 1;
+}
+
+
+.background-image {
+    background-image: url('../images/background.png'); 
+    background-size: cover; 
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh; 
+  }
