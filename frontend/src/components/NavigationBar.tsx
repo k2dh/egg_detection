@@ -20,10 +20,10 @@ const NavigationBar:React.FC<NavigationBarProps> = ({className}) => {
                 <a className="nav-link active" aria-current="page" href="#">Home</a>
                 </li>
                 <li className="nav-item">
-                <a className="nav-link" href="#">Nav1</a>
+                <a className="nav-link" href="/signup">Sign up</a>
                 </li>
                 <li className="nav-item">
-                <a className="nav-link" href="#">Nav2</a>
+                <a className="nav-link" href="/login">Login</a>
                 </li>
             </ul>
             </div>
