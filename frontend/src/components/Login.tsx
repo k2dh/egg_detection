@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface LoginProps {
-  onLogin: (username: string, password: string) => void; // Callback function to handle login
+  onLogin: (username: string, password: string, navigate: Function) => void;
+  loginError: string | null; // Added loginError prop
 }
 
-const Login: React.FC<LoginProps> = ({ onLogin }) => {
+const Login: React.FC<LoginProps> = ({ onLogin, loginError }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // Pass username and password to the parent component for authentication
-    onLogin(username, password);
-    // Optional: Clear input fields after login attempt
+    onLogin(username, password, navigate); // Pass navigate to onLogin
+    // Optionally, clear input fields after login attempt
     setUsername('');
     setPassword('');
   };
@@ -24,6 +26,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
           <div className="card">
             <div className="card-header">Login</div>
             <div className="card-body">
+              {loginError && <div className="alert alert-danger">{loginError}</div>}
               <form onSubmit={handleLogin}>
                 <div className="mb-3">
                   <label htmlFor="username" className="form-label">Username</label>

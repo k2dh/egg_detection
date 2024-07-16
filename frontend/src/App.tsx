@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import ImageUpload from "./components/ImageUpload";
 import NavigationBar from "./components/NavigationBar";
 import axios from 'axios';
@@ -19,6 +19,8 @@ function App() {
   const backendAddress = 'http://localhost:33333/api/eggs/';
   const [appState, setAppState] = useState(State.Initial);
   const [imageUrl, setImageUrl] = useState<string>('');
+  const [token, setToken] = useState<string | null>(null);
+  const [loginError, setLoginError] = useState<string | null>(null);
 
   const startLoading = () => {
     setAppState(State.Loading);
@@ -39,11 +41,24 @@ function App() {
     setAppState(State.Initial);
   };
 
-  const handleLogin = (username: string, password: string) => {
-    // Implement your login logic here
-    console.log(`Logging in with username: ${username} and password: ${password}`);
-    // For demo purposes, set app state to Result after login
-    setAppState(State.Initial);
+  const handleLogin = async (username: string, password: string, navigate: Function) => {
+    try {
+      const response = await axios.post('http://localhost:8000/api/token/', {
+        username,
+        password,
+      });
+      setToken(response.data.access);
+      setAppState(State.Initial);
+      navigate('/'); // Navigate to home page
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        // Handle known error response
+        setLoginError(error.response.data.detail);
+      } else {
+        // Handle unknown errors
+        setLoginError('An unexpected error occurred. Please try again.');
+      }
+    }
   };
 
   const handleSignUp = (username: string, email: string, password: string) => {
@@ -64,9 +79,7 @@ function App() {
               {appState === State.Initial && <ImageUpload onUploadStart={startLoading} onGettingResult={getResult} />}
               {appState === State.Result && <AnalysisResult imageUrl={imageUrl} onBackClick={handleBackClick} />}
             </>} />
-            {/* Pass onLogin prop to Login component */}
-            <Route path="/login" element={<Login onLogin={handleLogin} />} />
-            {/* Pass onSignUp prop to SignUp component */}
+            <Route path="/login" element={<Login onLogin={handleLogin} loginError={loginError} />} />
             <Route path="/signup" element={<SignUp onSignUp={handleSignUp} />} />
           </Routes>
         </div>

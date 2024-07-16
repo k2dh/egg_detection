@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 interface SignUpProps {
-  onSignUp: (username: string, email: string, password: string) => void; // Callback function to handle sign-up
+  onSignUp: (username: string, email: string, password: string) => void;
 }
 
 const SignUp: React.FC<SignUpProps> = ({ onSignUp }) => {
@@ -11,9 +11,7 @@ const SignUp: React.FC<SignUpProps> = ({ onSignUp }) => {
 
   const handleSignUp = (e: React.FormEvent) => {
     e.preventDefault();
-    // Pass username, email, and password to the parent component for sign-up
     onSignUp(username, email, password);
-    // Optional: Clear input fields after sign-up attempt
     setUsername('');
     setEmail('');
     setPassword('');
